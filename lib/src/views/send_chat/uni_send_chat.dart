@@ -20,13 +20,15 @@ class UniSendChatInputBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomInsets = MediaQuery.of(context).viewInsets.bottom;
+
     return Container(
       color: _colors.white,
       constraints: BoxConstraints(
         minHeight: 100.rSp,
         maxHeight: 130.rSp,
       ),
-      // margin: EdgeInsets.only(bottom: 2.h),
+      margin: EdgeInsets.only(bottom: bottomInsets),
       padding: EdgeInsets.only(left: 20.rw, right: 20.rw, bottom: 20.rSp),
       child: UniSendChatInputView(
         onSendChatMessage: onSendChatMessage,

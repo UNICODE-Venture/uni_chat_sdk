@@ -219,3 +219,6 @@ class ChatState {
 
 /// [VoidRef] is a callback that returns a widget ref
 typedef VoidRef = void Function(WidgetRef ref);
+
+/// [VoidMessageCallBack] is a callback that returns a string
+typedef VoidMessageCallBack = void Function(UniChatMessage message);

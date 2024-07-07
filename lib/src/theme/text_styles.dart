@@ -43,7 +43,7 @@ class TextStyles {
       );
 
   TextStyle get dateTextStyle => GoogleFonts.ibmPlexSansArabic(
-        fontSize: 9.rSp,
+        fontSize: 11.rSp,
         color: _colors.lightDark06,
         fontWeight: FontWeight.w500,
       );

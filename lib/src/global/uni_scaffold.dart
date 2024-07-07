@@ -22,6 +22,7 @@ class UniScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: appBar,
       backgroundColor: _colors.white,
       body: Padding(

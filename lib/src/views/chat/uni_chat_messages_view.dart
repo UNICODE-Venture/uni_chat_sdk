@@ -32,6 +32,9 @@ class UniChatMessagesView extends ConsumerStatefulWidget {
   /// [moreOptions] is the list of widgets that you want to show in the send pop over
   final List<Widget>? moreOptions;
 
+  /// [onViewImgTap] is the callback that is called when the image is tapped
+  final VoidMessageCallBack? onViewImgTap;
+
   /// [UniChatMessagesView] is where all the chat messages are displayed of the room
   const UniChatMessagesView({
     super.key,
@@ -41,6 +44,7 @@ class UniChatMessagesView extends ConsumerStatefulWidget {
     this.onRef,
     this.loadingStatus,
     this.moreOptions,
+    this.onViewImgTap,
   });
 
   @override
@@ -97,8 +101,10 @@ class _UniChatViewState extends ConsumerState<UniChatMessagesView> {
                     return Column(
                       children: [
                         _designSystem.timeText(messageGroup.labelText),
-                        ...messages
-                            .map((message) => UniChatBubble(message: message)),
+                        ...messages.map((message) => UniChatBubble(
+                            message: message,
+                            onViewImgTap: () =>
+                                widget.onViewImgTap?.call(message))),
                       ],
                     );
                   },
