@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 const _uuid = Uuid();
@@ -11,4 +12,10 @@ class UniUtils {
 
   /// Get the unique identifier
   String get getUID => _uuid.v4();
+
+  /// [hideKeyboard] Hide the keyboard
+  Future hideKeyboard() async {
+    // Hide the keyboard
+    return FocusManager.instance.primaryFocus?.unfocus();
+  }
 }

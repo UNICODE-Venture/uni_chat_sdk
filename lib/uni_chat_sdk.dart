@@ -31,3 +31,6 @@ export 'src/core/services/uni_chat_services.dart';
 
 // Add Btn Widgets for Pick Media
 export 'src/views/send_chat/widgets/add_media_btn.dart';
+
+/// Callback types
+export 'src/types/callback_types.dart';

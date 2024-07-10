@@ -12,6 +12,8 @@ import '../core/models/config/uni_chat_config.dart';
 import '../theme/theme.dart';
 import 'package:timeago/timeago.dart' as time_ago;
 
+import 'uni_chat_provider.dart';
+
 final uniStateKey = GlobalKey<NavigatorState>();
 
 class UniChatSDKWrapper extends StatelessWidget {
@@ -23,24 +25,28 @@ class UniChatSDKWrapper extends StatelessWidget {
 
   /// [UniChatSDKWrapper] is the main widget for the uni chat package, please make sure to wrap your main widget where chat will be shown,
   ///
-  /// You need to add it only if you want to use the widgets only but if you're using the chat directly then you don't need to add it
+  /// You need to add it only if you want to use the widgets only but if you're using the [UniChatSdkView] directly then you don't need to add it.
   ///
-  /// Before use any of the widgets from the package, otherwise the package will not work as expected
-  ///
-  /// Also make sure you wrap your main app with our provider [UniChatProvider], otherwise the package will lead to crash
+  /// Because [UniChatSdkView] already have the [UniChatSDKWrapper] inside it.
+
+  // Before use any of the widgets from the package, otherwise the package will not work as expected
+  //
+  // Also make sure you wrap your main app with our provider [UniChatProvider], otherwise the package will lead to crash
   const UniChatSDKWrapper({super.key, required this.home, this.config});
 
   @override
   Widget build(BuildContext context) {
-    return EasyLocalization(
-      path: UniAssetsPath.translations,
-      useOnlyLangCode: true,
-      assetLoader: const CodegenLoader(),
-      supportedLocales: UniLocalizationsData.supportLocale,
-      fallbackLocale: UniLocalizationsData.supportLocale.first,
-      startLocale:
-          config?.locale.locale ?? UniLocalizationsData.supportLocale.first,
-      child: UniChatApp(home: home, config: config),
+    return UniChatProvider(
+      child: EasyLocalization(
+        path: UniAssetsPath.translations,
+        useOnlyLangCode: true,
+        assetLoader: const CodegenLoader(),
+        supportedLocales: UniLocalizationsData.supportLocale,
+        fallbackLocale: UniLocalizationsData.supportLocale.first,
+        startLocale:
+            config?.locale.locale ?? UniLocalizationsData.supportLocale.first,
+        child: UniChatApp(home: home, config: config),
+      ),
     );
   }
 }
@@ -79,15 +85,22 @@ class _UniChatAppState extends ConsumerState<UniChatApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: uniStateKey,
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      theme: widget.config?.theme ?? UniChatTheme.theme,
-      home: widget.home,
-      builder: BotToastInit(),
+    return Theme(
+      data: widget.config?.theme ?? UniChatTheme.theme,
+      child: Localizations(
+        locale: context.locale,
+        delegates: context.localizationDelegates,
+        child: Builder(
+          builder: (context) => BotToastInit()(
+            context,
+            Navigator(
+              key: uniStateKey,
+              onGenerateRoute: (_) =>
+                  MaterialPageRoute(builder: (context) => widget.home),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

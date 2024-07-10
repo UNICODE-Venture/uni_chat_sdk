@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni_chat_sdk/src/core/extension/extenstion.dart';
+import 'package:uni_chat_sdk/src/core/providers/chat_state.dart';
 
 import '../../../../generated/locale_keys.g.dart';
+import '../../../global/uni_chat_wrapper.dart';
 import '../../../theme/colors.dart';
 import '../../../utils/utils.dart';
 import '../../enums/enums.dart';
@@ -34,6 +37,9 @@ class UniChatMessage {
   /// [mediaText] is the text of the media message (image, video)
   late String mediaText;
 
+  /// [repliedMessageId] is the id of the message that is replied to
+  late String repliedMessageId;
+
   /// [customData] is the custom data of the chat message.
   late Map<String, dynamic> customData;
 
@@ -47,6 +53,7 @@ class UniChatMessage {
     DateTime? sentAt,
     this.mediaText = "",
     this.customData = const {},
+    this.repliedMessageId = "",
 
     ///! For local use
     this.isSentByMe = true,
@@ -68,6 +75,8 @@ class UniChatMessage {
       sentAt: data['sentAt'].toDate(),
       mediaText: data['mediaText'],
       customData: data['customData'] ?? {},
+      repliedMessageId: data['repliedMessageId'] ?? "",
+      //! Locale
       isSentByMe: data["sentBy"].toString().isEqualTo("1"),
     );
   }
@@ -83,6 +92,7 @@ class UniChatMessage {
       'sentAt': sentAt,
       'mediaText': mediaText,
       'customData': customData,
+      'repliedMessageId': repliedMessageId,
     };
   }
 
@@ -117,4 +127,11 @@ class UniChatMessage {
   /// [isSendMediaMessage] is true if the message is a media message to sent
   bool get isSendMediaMessage =>
       mediaFile != null && messageType.isMediaMessage;
+
+  /// [repliedChatMessage] is the message that is replied to
+  UniChatMessage? repliedChatMessage(WidgetRef ref) => ref
+      .read(chatStateProvider)
+      .currentChatRoom
+      .chatMessages
+      .findOrNull((m) => m.messageId.isEqualTo(repliedMessageId));
 }

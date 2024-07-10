@@ -7,44 +7,19 @@ import 'package:uni_chat_sdk/src/core/providers/providers.dart';
 
 import '../../../uni_chat_sdk.dart';
 import '../../core/providers/chat_state.dart';
-import '../../core/providers/send_chat_state.dart';
 import '../../global/uni_design.dart';
 import '../../global/uni_scaffold.dart';
 import 'widgets/chat_loading.dart';
 import 'widgets/no_chat.dart';
 
 class UniChatMessagesView extends ConsumerStatefulWidget {
-  /// [chatRoomWithMessages] is the chat-room and the list of messages that are displayed in the chat room from your custom screen
-  final UniChatRoom? chatRoomWithMessages;
-
-  /// [onSendChatMessage] is the callback that is called when the message is sent, so that the message can be saved into your database
-  final VoidSendMsg? onSendChatMessage;
-
-  /// [appBar] is the custom app bar that you can pass to the chat messages view
-  final AppBar? appBar;
-
-  /// [onRef] is the callback that is called when the chat messages view is rendered with WidgetRef from riverpod
-  final VoidRef? onRef;
-
-  /// [loadingStatus] is the loading status of the chat messages
-  final UniLoadingState? loadingStatus;
-
-  /// [moreOptions] is the list of widgets that you want to show in the send pop over
-  final List<Widget>? moreOptions;
-
-  /// [onViewImgTap] is the callback that is called when the image is tapped
-  final VoidMessageCallBack? onViewImgTap;
+  /// [UniChatBuilder] is the custom app bar that you can pass to the chat messages view
+  final UniChatBuilder? chatBuilder;
 
   /// [UniChatMessagesView] is where all the chat messages are displayed of the room
   const UniChatMessagesView({
     super.key,
-    this.chatRoomWithMessages,
-    this.onSendChatMessage,
-    this.appBar,
-    this.onRef,
-    this.loadingStatus,
-    this.moreOptions,
-    this.onViewImgTap,
+    this.chatBuilder,
   });
 
   @override
@@ -58,17 +33,17 @@ class _UniChatViewState extends ConsumerState<UniChatMessagesView> {
   @override
   void initState() {
     super.initState();
-    if (widget.chatRoomWithMessages == null) {
+    if (widget.chatBuilder?.chatRoomWithMessages == null) {
       streamSubscription = ref.chatStateNotifier.chatMessagesStreamSubscription;
     }
-    if (widget.onRef != null) {
-      widget.onRef?.call(ref);
+    if (widget.chatBuilder?.onRef != null) {
+      widget.chatBuilder?.onRef?.call(ref);
     }
   }
 
   @override
   void dispose() {
-    if (widget.chatRoomWithMessages == null) {
+    if (widget.chatBuilder?.chatRoomWithMessages == null) {
       streamSubscription?.update(false);
     }
     super.dispose();
@@ -81,12 +56,13 @@ class _UniChatViewState extends ConsumerState<UniChatMessagesView> {
     final sendChatStateNotifier = ref.sendChatStateNotifier;
 
     UniChatRoom chatRoom =
-        widget.chatRoomWithMessages ?? chatState.currentChatRoom;
+        widget.chatBuilder?.chatRoomWithMessages ?? chatState.currentChatRoom;
 
     return UniScaffold(
-      appBar: widget.appBar ??
+      appBar: widget.chatBuilder?.appBar?.call(context, chatRoom) ??
           _designSystem.appBar(title: chatRoom.peerUser.fullName),
-      body: (widget.loadingStatus ?? chatState.loadingStatus).isLoading &&
+      body: (widget.chatBuilder?.loadingStatus ?? chatState.loadingStatus)
+                  .isLoading &&
               chatRoom.messagesByGroups.isEmpty
           ? const UniChatMessagesLoadingView()
           : chatRoom.messagesByGroups.isEmpty
@@ -101,22 +77,31 @@ class _UniChatViewState extends ConsumerState<UniChatMessagesView> {
                     return Column(
                       children: [
                         _designSystem.timeText(messageGroup.labelText),
-                        ...messages.map((message) => UniChatBubble(
-                            message: message,
-                            onViewImgTap: () =>
-                                widget.onViewImgTap?.call(message))),
+                        ...messages.map(
+                          (message) =>
+                              widget.chatBuilder?.builder
+                                  ?.call(chatRoom, message) ??
+                              UniChatBubble(
+                                  message: message,
+                                  onViewImgTap:
+                                      widget.chatBuilder?.onViewImgTap != null
+                                          ? () => widget
+                                              .chatBuilder?.onViewImgTap
+                                              ?.call(message)
+                                          : null),
+                        ),
                       ],
                     );
                   },
                 ),
       bottomNavigationBar: UniSendChatInputBar(
-        moreOptions: widget.moreOptions,
+        moreOptions: widget.chatBuilder?.moreOptions,
         onSendChatMessage: (message) async {
-          if (widget.onSendChatMessage != null) {
-            widget.onSendChatMessage?.call(message);
+          if (widget.chatBuilder?.onSendChatMessage != null) {
+            widget.chatBuilder?.onSendChatMessage?.call(message);
             sendChatStateNotifier.clearSendChatState();
           } else {
-            await chatStateNotifier.sendChatMessage(message);
+            await chatStateNotifier.sendChatMessage(message: message);
           }
         },
       ),

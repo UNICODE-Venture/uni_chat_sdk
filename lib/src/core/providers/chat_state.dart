@@ -90,7 +90,7 @@ class ChatStateNotifier extends Notifier<ChatState> {
   }
 
   /// [updateChatRoomWithMessages] is a method to update the chat room with messages
-  void updateChatRoomWithMessages({
+  UniChatRoom updateChatRoomWithMessages({
     required UniChatRoom room,
     UniLoadingState loadingStatus = UniLoadingState.notSpecified,
   }) {
@@ -98,40 +98,40 @@ class ChatStateNotifier extends Notifier<ChatState> {
       currentChatRoom: room,
       loadingStatus: loadingStatus,
     );
+    return room;
   }
 
   /// [createChatRoom] is a method to create a chat room
-  Future createChatRoom() async {
-    UniChatRoom room = UniChatRoom(
-      roomId: "room12345",
-      users: ["1", "2"],
-      recentChat: UniChatMessage(
-        message: "اذا حد عنده اخر نسخة للطلبية يرسلها الي.",
-        sentBy: "1",
-      ),
-      userProfiles: [
-        UniUserModel(userId: "1", fullName: "User 1"),
-        UniUserModel(userId: "2", fullName: "User 2"),
-      ],
-    );
-
+  Future<UniChatRoom?> createChatRoom(UniChatRoom room) async {
+    state = state.copyWith(loadingStatus: UniLoadingState.loading);
     final result = await _chatRepo.createChatRoom(room);
-    printMeLog(result);
+    if (result.isSuccessFul) {
+      state = state.copyWith(
+        chatRooms: [...state.chatRooms, room],
+        loadingStatus: UniLoadingState.notSpecified,
+      );
+      return room;
+    }
+    return null;
   }
 
   /// [goToViewChatMessages] Go To the chat view
-  Future goToViewChatMessages(BuildContext context, UniChatRoom room) async {
+  Future goToViewChatMessages(BuildContext context, UniChatRoom room,
+      UniChatBuilder? chatBuilder) async {
     // Start listening to the chat messages
     listenToChatMessagesFromRoom(room);
 
     // Push to the chat view
-    context.pushTo(const UniChatMessagesView());
+    context.pushTo(UniChatMessagesView(chatBuilder: chatBuilder));
   }
 
   /// [sendChatMessage] is a method to send a chat message
-  Future sendChatMessage(UniChatMessage message) async {
+  Future<bool> sendChatMessage({
+    required UniChatMessage message,
+    UniChatRoom? room,
+  }) async {
     // Add the message to the list for better UX
-    UniChatRoom chatRoom = state.currentChatRoom;
+    UniChatRoom chatRoom = room ?? state.currentChatRoom;
     chatRoom.chatMessages.insert(0, message);
     state = state.copyWith(
       currentChatRoom: chatRoom,
@@ -141,7 +141,7 @@ class ChatStateNotifier extends Notifier<ChatState> {
     final sendChatNotifier = ref.read(sendChatStateProvider.notifier);
     sendChatNotifier.clearSendChatState();
 
-    if (message.messageType.isMediaMessage) {
+    if (message.messageType.isMediaMessage && message.mediaFile != null) {
       final result = await _storageService.uploadChatContent(
           roomId: chatRoom.roomId, file: message.mediaFile!);
       if (result.isSuccess) {
@@ -149,7 +149,7 @@ class ChatStateNotifier extends Notifier<ChatState> {
       } else {
         UniToastAlert.showToastMessage(isSuccess: false);
         _rollBackChatMessage(message, sendChatNotifier);
-        return;
+        return false;
       }
     }
 
@@ -157,10 +157,12 @@ class ChatStateNotifier extends Notifier<ChatState> {
       final result = await _chatRepo.sendChatMessage(chatRoom, message);
       if (!result.isSuccessFul) {
         _rollBackChatMessage(message, sendChatNotifier);
+        return false;
       }
     }
 
     state = state.copyWith(loadingStatus: UniLoadingState.notSpecified);
+    return true;
   }
 
   /// [_rollBackChatMessage] is a method to roll back a chat message if the message fails to send
@@ -175,7 +177,7 @@ class ChatStateNotifier extends Notifier<ChatState> {
     sendChatStateNotifier.rollBackSendState(
       context: uniStateKey.currentContext!,
       message: message,
-      onSendChatMessage: (m) => sendChatMessage(m),
+      onSendChatMessage: (m) => sendChatMessage(message: m),
     );
   }
 }
@@ -216,9 +218,3 @@ class ChatState {
     );
   }
 }
-
-/// [VoidRef] is a callback that returns a widget ref
-typedef VoidRef = void Function(WidgetRef ref);
-
-/// [VoidMessageCallBack] is a callback that returns a string
-typedef VoidMessageCallBack = void Function(UniChatMessage message);

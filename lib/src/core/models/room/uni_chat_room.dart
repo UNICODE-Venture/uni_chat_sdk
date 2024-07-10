@@ -106,6 +106,30 @@ class UniChatRoom {
     messagesGroups.sort((a, b) => b.date.compareTo(a.date));
     return messagesGroups;
   }
+
+  /// [isRoomInValidToCreate] is a method to check if the room is valid to create or not
+  bool get isRoomInValidToCreate =>
+      userProfiles.isEmpty ||
+      users.isEmpty ||
+      userProfiles.length != 2 ||
+      users.length != 2 ||
+      users.length != userProfiles.length;
+
+  String get roomCreateErrorMessage {
+    List<String> errorMsg = [];
+    if (userProfiles.isEmpty) errorMsg.add("userProfiles is empty");
+    if (users.isEmpty) errorMsg.add("users is empty");
+    if (userProfiles.length != 2) {
+      errorMsg.add("userProfiles length is greater or less than 2");
+    }
+    if (users.length != 2) {
+      errorMsg.add("users length is greater or less than 2");
+    }
+    if (users.length != userProfiles.length) {
+      errorMsg.add("users length is not equal to userProfiles length");
+    }
+    return "The room is invalid and cannot be created, error: ${errorMsg.join(", ")}";
+  }
 }
 
 class MessagesGroupModel {

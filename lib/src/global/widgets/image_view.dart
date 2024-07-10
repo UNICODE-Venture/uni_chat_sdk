@@ -7,10 +7,13 @@ import 'package:photo_view/photo_view.dart';
 import 'package:uni_chat_sdk/src/core/extension/extenstion.dart';
 
 import '../../../generated/locale_keys.g.dart';
+import '../../theme/colors.dart';
 import '../uni_design.dart';
+import '../uni_scaffold.dart';
 import 'cached_image.dart';
 
 final _designSystem = UniDesignSystem.instance;
+final _colors = ColorsPalletes.instance;
 
 class UniFullImageView extends StatelessWidget {
   final File? imageFile;
@@ -21,8 +24,8 @@ class UniFullImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String tag = imageFile?.fileName ?? imageUrl ?? "";
-    return Scaffold(
-      extendBodyBehindAppBar: true,
+    return UniScaffold(
+      backgroundColor: _colors.black,
       appBar: _designSystem.appBar(title: LocaleKeys.imgView.tr()),
       body: Hero(
         tag: tag,
@@ -31,13 +34,14 @@ class UniFullImageView extends StatelessWidget {
                 imageProvider: FileImage(imageFile!),
                 minScale: .1,
                 maxScale: .5,
-              )
+                backgroundDecoration: BoxDecoration(color: _colors.black))
             : CachedImageView(
                 url: imageUrl ?? "",
                 imgBuilder: (img) => PhotoView(
                   imageProvider: img,
                   minScale: .1,
                   maxScale: .5,
+                  backgroundDecoration: BoxDecoration(color: _colors.black),
                 ),
               ),
       ),

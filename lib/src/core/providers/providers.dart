@@ -19,8 +19,18 @@ extension WidgetRefExt on WidgetRef {
 }
 
 extension BuildContextExt on BuildContext {
-  /// [provider] is to read the provider using the context
+  /// [container] is to read the provider container
+  ProviderContainer get container {
+    return ProviderScope.containerOf(this, listen: false);
+  }
+
+  /// [read] is to read the provider using the context
   T read<T>(ProviderBase<T> provider) {
-    return ProviderScope.containerOf(this, listen: false).read(provider);
+    return container.read(provider);
+  }
+
+  /// [readNotifier] is to read the provider notifier
+  T readNotifier<T>(AlwaysAliveRefreshable<T> notifier) {
+    return container.read(notifier);
   }
 }

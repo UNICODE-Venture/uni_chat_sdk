@@ -129,7 +129,8 @@ class _SendMediaViewState extends ConsumerState<SendMediaView> {
             ),
             child: VoicePlayerBubble(
               voiceFile: state.mediaAndVoiceFile!,
-              isSentByMe: false,
+              isSentByMe: true,
+              isWhiteContent: true,
             ),
           ),
         ),

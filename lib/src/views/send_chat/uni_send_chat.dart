@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:uni_chat_sdk/src/core/extension/size_extension.dart';
 
 import '../../core/providers/send_chat_state.dart';
+import '../../global/widgets/glass_morphism.dart';
 import '../../theme/colors.dart';
 import 'send_chat_input.dart';
 
@@ -22,17 +23,23 @@ class UniSendChatInputBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomInsets = MediaQuery.of(context).viewInsets.bottom;
 
-    return Container(
-      color: _colors.white,
-      constraints: BoxConstraints(
-        minHeight: 100.rSp,
-        maxHeight: 130.rSp,
-      ),
-      margin: EdgeInsets.only(bottom: bottomInsets),
-      padding: EdgeInsets.only(left: 20.rw, right: 20.rw, bottom: 20.rSp),
-      child: UniSendChatInputView(
-        onSendChatMessage: onSendChatMessage,
-        moreOptions: moreOptions,
+    return GlassMorphism(
+      child: Container(
+        constraints: BoxConstraints(
+          minHeight: 100.rSp,
+          maxHeight: 130.rSp,
+        ),
+        margin: EdgeInsets.only(bottom: bottomInsets),
+        padding: EdgeInsets.only(left: 20.rw, right: 20.rw, bottom: 20.rSp),
+        decoration: BoxDecoration(
+            color: _colors.white.withAlpha(150),
+            border: Border(
+              top: BorderSide(color: _colors.grey20, width: 0.5.rSp),
+            )),
+        child: UniSendChatInputView(
+          onSendChatMessage: onSendChatMessage,
+          moreOptions: moreOptions,
+        ),
       ),
     );
   }

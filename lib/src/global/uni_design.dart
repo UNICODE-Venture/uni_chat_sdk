@@ -9,6 +9,7 @@ import 'package:uni_chat_sdk/src/core/extension/size_extension.dart';
 import '../constants/assets_paths.dart';
 import '../theme/colors.dart';
 import '../theme/text_styles.dart';
+import 'widgets/glass_morphism.dart';
 
 final _colors = ColorsPalletes.instance;
 final _textStyles = TextStyles.instance;
@@ -25,9 +26,14 @@ class UniDesignSystem {
     required String title,
   }) {
     return AppBar(
-      backgroundColor: _colors.white,
-      title: Text(title, style: _textStyles.text16Bold),
+      leading: BackButton(color: _colors.black),
+      backgroundColor: _colors.white.withAlpha(100),
+      title: Text(title,
+          style: _textStyles.text16Bold.copyWith(color: _colors.black)),
       centerTitle: true,
+      flexibleSpace: GlassMorphism(
+        child: Container(color: Colors.transparent),
+      ),
     );
   }
 

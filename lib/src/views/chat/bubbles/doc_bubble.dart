@@ -35,7 +35,8 @@ class _DocBubbleState extends State<DocBubble> {
 
   Future _downloadAndOpenFile() async {
     setState(() => isDownloading = true);
-    File file = await _cacheServices.getFile(widget.uniChatMessage.message);
+    File file = widget.uniChatMessage.mediaFile ??
+        await _cacheServices.getFile(widget.uniChatMessage.message);
     if (mounted) setState(() => isDownloading = false);
     await OpenFile.open(file.path);
   }
@@ -53,7 +54,7 @@ class _DocBubbleState extends State<DocBubble> {
         children: [
           Expanded(
             child: Text(
-              message.message.fileNameFromUrl,
+              message.mediaFile?.fileName ?? message.message.fileNameFromUrl,
               style: message.isSentByMe
                   ? _textStyles.text14Medium
                   : _textStyles.text14MediumWhite,
