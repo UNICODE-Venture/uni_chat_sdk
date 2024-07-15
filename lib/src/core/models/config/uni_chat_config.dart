@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../../enums/enums.dart';
 
 class UniChatConfig {
+  /// [stateKey] is the key of the navigator state
+  final GlobalKey<NavigatorState>? stateKey;
+
   /// [supportedMessageType] is contain the list of supported message types
   final List<UniChatMessageType> supportedMessageType;
 
@@ -15,14 +18,15 @@ class UniChatConfig {
   /// [theme] is the theme of the chat
   final ThemeData? theme;
 
-  /// [bubbleBgColor] is the background color of the bubble. If not provided, it will be the default color based on the message type
-  final Color? bubbleBgColor;
+  /// [myBubbleColors] is the color of the bubble for the user
+  final BubbleColors? myBubbleColors;
 
-  /// [contentColor] is the color of the content inside the bubble. If not provided, it will be the default color based on the message type
-  final Color? contentColor;
+  /// [peerBubbleColors] is the color of the bubble for the other user
+  final BubbleColors? peerBubbleColors;
 
   /// [UniChatConfig] is the state of the chat
   UniChatConfig({
+    this.stateKey,
     this.supportedMessageType = const [
       UniChatMessageType.text,
       // UniChatMessageType.image,
@@ -33,8 +37,8 @@ class UniChatConfig {
     this.locale = UniChatLocale.ar,
     this.moreOptions = const [],
     this.theme,
-    this.bubbleBgColor,
-    this.contentColor,
+    this.myBubbleColors,
+    this.peerBubbleColors,
   });
 
   /// [isHasText] is the function to check if the chat has text message type
@@ -61,6 +65,25 @@ class UniChatConfig {
 
   @override
   String toString() {
-    return 'UniChatConfig(supportedMessageType: $supportedMessageType, locale: $locale)';
+    return 'UniChatConfig(supportedMessageType: $supportedMessageType, locale: $locale, moreOptions: $moreOptions, theme: $theme, myBubbleColors: $myBubbleColors, peerBubbleColors: $peerBubbleColors)';
+  }
+}
+
+class BubbleColors {
+  /// [bubbleBgColor] is the background color of the bubble. If not provided, it will be the default color based on the message type
+  final Color? bubbleBgColor;
+
+  /// [contentColor] is the color of the content inside the bubble. If not provided, it will be the default color based on the message type
+  final Color? contentColor;
+
+  /// [BubbleColors] is the state of the chat
+  BubbleColors({
+    this.bubbleBgColor,
+    this.contentColor,
+  });
+
+  @override
+  String toString() {
+    return 'BubbleColors(bubbleBgColor: $bubbleBgColor, contentColor: $contentColor)';
   }
 }

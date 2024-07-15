@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uni_chat_sdk/src/core/extension/extenstion.dart';
 import 'package:uni_chat_sdk/src/core/providers/providers.dart';
+import 'package:uni_chat_sdk/src/core/providers/uni_chat_state.dart';
+import 'package:uni_chat_sdk/src/utils/navigation.dart';
 
 import '../../../uni_chat_sdk.dart';
 import '../../core/providers/chat_state.dart';
@@ -54,6 +56,8 @@ class _UniChatViewState extends ConsumerState<UniChatMessagesView> {
     final chatState = ref.watch(chatStateProvider);
     final chatStateNotifier = ref.chatStateNotifier;
     final sendChatStateNotifier = ref.sendChatStateNotifier;
+    final config = ref.read(uniChatStateProvider).config;
+    printMeLog(config.toString());
 
     UniChatRoom chatRoom =
         widget.chatBuilder?.chatRoomWithMessages ?? chatState.currentChatRoom;
@@ -82,13 +86,19 @@ class _UniChatViewState extends ConsumerState<UniChatMessagesView> {
                               widget.chatBuilder?.builder
                                   ?.call(chatRoom, message) ??
                               UniChatBubble(
-                                  message: message,
-                                  onViewImgTap:
-                                      widget.chatBuilder?.onViewImgTap != null
-                                          ? () => widget
-                                              .chatBuilder?.onViewImgTap
-                                              ?.call(message)
-                                          : null),
+                                message: message,
+                                onViewImgTap:
+                                    widget.chatBuilder?.onViewImgTap != null
+                                        ? () => widget.chatBuilder?.onViewImgTap
+                                            ?.call(message)
+                                        : null,
+                                bubbleBgColor: message.isSentByMe
+                                    ? config.myBubbleColors?.bubbleBgColor
+                                    : config.peerBubbleColors?.bubbleBgColor,
+                                contentColor: message.isSentByMe
+                                    ? config.myBubbleColors?.contentColor
+                                    : config.peerBubbleColors?.contentColor,
+                              ),
                         ),
                       ],
                     );

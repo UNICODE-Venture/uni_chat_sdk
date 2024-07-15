@@ -14,7 +14,7 @@ import 'package:timeago/timeago.dart' as time_ago;
 
 import 'uni_chat_provider.dart';
 
-final uniStateKey = GlobalKey<NavigatorState>();
+late GlobalKey<NavigatorState> uniStateKey;
 
 class UniChatSDKWrapper extends StatelessWidget {
   /// [home] is the child of the screen
@@ -73,6 +73,7 @@ class _UniChatAppState extends ConsumerState<UniChatApp> {
 
   /// [_onStartUp] is the function that will run on start up of the package
   Future _onStartUp() async {
+    uniStateKey = widget.config?.stateKey ?? GlobalKey<NavigatorState>();
     UniLocalizationsData.currentLocale =
         widget.config?.locale.locale ?? context.locale;
     ref.uniChatStateNotifier.saveUniChatConfig(widget.config);
@@ -93,11 +94,13 @@ class _UniChatAppState extends ConsumerState<UniChatApp> {
         child: Builder(
           builder: (context) => BotToastInit()(
             context,
-            Navigator(
-              key: uniStateKey,
-              onGenerateRoute: (_) =>
-                  MaterialPageRoute(builder: (context) => widget.home),
-            ),
+            widget.config?.stateKey != null
+                ? widget.home
+                : Navigator(
+                    key: uniStateKey,
+                    onGenerateRoute: (_) =>
+                        MaterialPageRoute(builder: (context) => widget.home),
+                  ),
           ),
         ),
       ),

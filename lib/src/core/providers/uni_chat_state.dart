@@ -19,7 +19,7 @@ class UniChatStateNotifier extends Notifier<UniChatState> {
 }
 
 class UniChatState {
-  /// [uniChatConfig] is the configuration of the chat
+  /// [config] is the configuration of the chat
   final UniChatConfig config;
 
   /// [UniChatState] is the state of the chat configuration

@@ -21,8 +21,12 @@ class VoiceNoteBubble extends StatefulWidget {
   /// [uniChatMessage] is the message that is to be displayed
   final UniChatMessage uniChatMessage;
 
+  /// [contentColor] is the color of the content inside the bubble. If not provided, it will be the default color based on the message type
+  final Color? contentColor;
+
   /// [VoiceNoteBubble] is the widget that displays the text message
-  const VoiceNoteBubble({super.key, required this.uniChatMessage});
+  const VoiceNoteBubble(
+      {super.key, required this.uniChatMessage, this.contentColor});
 
   @override
   State<VoiceNoteBubble> createState() => _VoiceNoteBubbleState();
@@ -48,6 +52,7 @@ class _VoiceNoteBubbleState extends State<VoiceNoteBubble> {
     final uniChatMessage = widget.uniChatMessage;
     return voiceFile != null
         ? VoicePlayerBubble(
+            contentColor: widget.contentColor,
             isSentByMe: uniChatMessage.isSentByMe,
             voiceFile: voiceFile!,
           )
@@ -61,11 +66,15 @@ class VoicePlayerBubble extends StatefulWidget {
   final File voiceFile;
   final bool isSentByMe;
   final bool isWhiteContent;
+
+  /// [contentColor] is the color of the content inside the bubble. If not provided, it will be the default color based on the message type
+  final Color? contentColor;
   const VoicePlayerBubble({
     super.key,
     required this.voiceFile,
     required this.isSentByMe,
     this.isWhiteContent = false,
+    this.contentColor,
   });
 
   @override
@@ -97,11 +106,12 @@ class _VoicePlayerBubbleState extends State<VoicePlayerBubble> {
   @override
   Widget build(BuildContext context) {
     bool isSentByMe = widget.isSentByMe;
-    Color contentColor = widget.isWhiteContent
-        ? _colors.white
-        : isSentByMe
-            ? _colors.black
-            : _colors.white;
+    Color contentColor = widget.contentColor ??
+        (widget.isWhiteContent
+            ? _colors.white
+            : isSentByMe
+                ? _colors.black
+                : _colors.white);
     return ValueListenableBuilder(
         valueListenable: voiceNoteFileReady,
         builder: (context, bool isVoiceNoteFileReady, __) {

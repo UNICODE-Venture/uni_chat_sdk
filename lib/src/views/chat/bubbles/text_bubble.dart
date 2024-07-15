@@ -11,18 +11,27 @@ class TextBubble extends StatelessWidget {
   /// [uniChatMessage] is the message that is to be displayed
   final UniChatMessage uniChatMessage;
 
+  /// [isSecondaryText] is a flag that tells if the text is a secondary text
   final bool isSecondaryText;
 
+  /// [textColor] is the color of the text
+  final Color? textColor;
+
   /// [TextBubble] is the widget that displays the text message
-  const TextBubble(
-      {super.key, required this.uniChatMessage, this.isSecondaryText = false});
+  const TextBubble({
+    super.key,
+    required this.uniChatMessage,
+    this.isSecondaryText = false,
+    this.textColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SelectableText(
       isSecondaryText ? uniChatMessage.mediaText : uniChatMessage.message,
       style: _textStyles.text14Medium.copyWith(
-        color: uniChatMessage.isSentByMe ? _colors.grey600 : _colors.white,
+        color: textColor ??
+            (uniChatMessage.isSentByMe ? _colors.grey600 : _colors.white),
       ),
     );
   }

@@ -56,4 +56,8 @@ class UniChatSDKServices {
         .readNotifier(chatStateProvider.notifier)
         .sendChatMessage(message: message, room: room);
   }
+
+  /// [currentChatRoom] is a method to get the chat messages of the chat room
+  UniChatRoom get currentChatRoom =>
+      context.read(chatStateProvider).currentChatRoom;
 }
