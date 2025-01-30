@@ -14,7 +14,7 @@ import 'package:timeago/timeago.dart' as time_ago;
 
 import 'uni_chat_provider.dart';
 
-late GlobalKey<NavigatorState> uniStateKey;
+GlobalKey<NavigatorState> uniStateKey = GlobalKey<NavigatorState>();
 
 class UniChatSDKWrapper extends StatelessWidget {
   /// [home] is the child of the screen

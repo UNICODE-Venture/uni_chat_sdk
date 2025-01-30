@@ -82,7 +82,7 @@ class VoicePlayerBubble extends StatefulWidget {
 }
 
 class _VoicePlayerBubbleState extends State<VoicePlayerBubble> {
-  final _voiceNotePlayerController = PlayerController();
+  final PlayerController _voiceNotePlayerController = PlayerController();
   ValueNotifier<bool> voiceNoteFileReady = ValueNotifier(false);
 
   @override
@@ -189,8 +189,7 @@ class _VoicePlayerBubbleState extends State<VoicePlayerBubble> {
             if (_voiceNotePlayerController.playerState == PlayerState.playing) {
               await _voiceNotePlayerController.pausePlayer();
             } else {
-              await _voiceNotePlayerController.startPlayer(
-                  finishMode: FinishMode.pause);
+              await _voiceNotePlayerController.startPlayer();
             }
           },
           child: AnimatedCrossFade(

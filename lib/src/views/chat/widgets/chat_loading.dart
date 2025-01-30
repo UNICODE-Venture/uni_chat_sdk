@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uni_chat_sdk/src/core/extension/size_extension.dart';
-
 import '../../../global/widgets/skeleton_loading.dart';
 
 class UniChatMessagesLoadingView extends StatelessWidget {

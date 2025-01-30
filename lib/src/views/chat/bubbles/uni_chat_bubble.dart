@@ -120,14 +120,10 @@ class _UniChatBubbleState extends State<UniChatBubble> {
   /// Get the bubble widget by the type of the message
   Widget _bubbleWidgetByType(UniChatMessage message) {
     return switch (message.messageType) {
-      UniChatMessageType.text => TextBubble(
-          uniChatMessage: message,
-          textColor: widget.contentColor,
-        ),
-      UniChatMessageType.image => ImageBubble(
-          uniChatMessage: message,
-          onViewImgTap: widget.onViewImgTap,
-        ),
+      UniChatMessageType.text =>
+        TextBubble(uniChatMessage: message, textColor: widget.contentColor),
+      UniChatMessageType.image =>
+        ImageBubble(uniChatMessage: message, onViewImgTap: widget.onViewImgTap),
       UniChatMessageType.voice => VoiceNoteBubble(
           uniChatMessage: message, contentColor: widget.contentColor),
       UniChatMessageType.video => VideoBubble(uniChatMessage: message),
