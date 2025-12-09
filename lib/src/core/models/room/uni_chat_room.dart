@@ -151,8 +151,8 @@ class MessagesGroupModel {
 
   /// [labelText] is the label text of the messages group
   String get labelText => date.isToday
-      ? LocaleKeys.today.tr()
+      ? UniLocaleKeys.today.tr()
       : date.isYesterday
-          ? LocaleKeys.yesterday.tr()
+          ? UniLocaleKeys.yesterday.tr()
           : dateLabelText;
 }

@@ -105,7 +105,7 @@ class _UniSendChatInputViewState extends ConsumerState<UniSendChatInputView> {
                 onChanged: (v) => setState(() {}),
                 textInputAction: TextInputAction.newline,
                 decoration: InputDecoration(
-                  hintText: LocaleKeys.writeChat.tr(),
+                  hintText: UniLocaleKeys.writeChat.tr(),
                   border: InputBorder.none,
                   hintStyle: _textStyles.text14Medium,
                 ),

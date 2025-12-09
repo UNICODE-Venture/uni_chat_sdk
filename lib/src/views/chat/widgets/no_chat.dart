@@ -26,7 +26,7 @@ class NoChatFoundView extends StatelessWidget {
         ),
         30.vGap,
         Text(
-          LocaleKeys.noChat.tr(),
+          UniLocaleKeys.noChat.tr(),
           style: _textStyles.text16Bold,
         )
       ],

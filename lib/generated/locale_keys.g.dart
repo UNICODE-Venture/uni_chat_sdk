@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class  LocaleKeys {
+abstract class UniLocaleKeys {
   static const chatRooms = 'chatRooms';
   static const file = 'file';
   static const fileShared = 'fileShared';
@@ -17,5 +17,4 @@ abstract class  LocaleKeys {
   static const voiceShared = 'voiceShared';
   static const writeChat = 'writeChat';
   static const yesterday = 'yesterday';
-
 }

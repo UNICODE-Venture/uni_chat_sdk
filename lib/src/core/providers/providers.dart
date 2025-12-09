@@ -30,7 +30,7 @@ extension BuildContextExt on BuildContext {
   }
 
   /// [readNotifier] is to read the provider notifier
-  T readNotifier<T>(AlwaysAliveRefreshable<T> notifier) {
+  T readNotifier<T>(Refreshable<T> notifier) {
     return container.read(notifier);
   }
 }

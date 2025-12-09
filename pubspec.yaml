@@ -1,10 +1,10 @@
 name: uni_chat_sdk
 description: "A new Flutter package project."
-version: 0.0.1
+version: 1.0.0
 homepage:
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -12,44 +12,50 @@ dependencies:
     sdk: flutter
 
   #* Localizations
-  # flutter_localizations:
-  #   sdk: flutter
   easy_localization: ^3.0.7
 
   # Firebase
-  cloud_firestore: ^4.3.1
-  firebase_storage: ^11.0.16
+  cloud_firestore: ^6.0.1
+  firebase_storage: ^13.0.1
 
   # State Management
   flutter_riverpod: ^2.5.1
 
-  # UI
+  # Font
   google_fonts: ^6.2.1
+
+  # UI
   flutter_chat_bubble: ^2.0.2
   shimmer: ^3.0.0
   photo_view: ^0.15.0
+  bot_toast: ^4.1.3
+
+  # Video
   chewie: ^1.8.1
   video_player: ^2.9.1
   cached_network_image: ^3.3.1
+
+  # Audio
   audio_waveforms: ^1.2.0
-  bot_toast: ^4.1.3
 
   # Utils
   uuid: ^4.4.0
 
-  # Storage
+  # Cache Storage
   flutter_cache_manager: ^3.3.2
 
   # Media Picker
   image_picker: ^1.1.2
-  file_picker: ^8.0.6
-  timeago: ^3.6.1
+  file_picker: ^9.0.2
   open_file: ^3.3.2
+
+  # Utils
+  timeago: ^3.6.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   assets:

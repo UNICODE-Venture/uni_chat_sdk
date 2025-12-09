@@ -1,4 +1,4 @@
-library uni_chat_sdk;
+library;
 
 /// Enums for the type of chat message
 export 'src/core/enums/enums.dart';

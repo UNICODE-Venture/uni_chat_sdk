@@ -175,7 +175,6 @@ class ChatStateNotifier extends Notifier<ChatState> {
         .removeWhere((m) => m.messageId.isEqualTo(message.messageId));
     state = state.copyWith(currentChatRoom: chatRoom);
     sendChatStateNotifier.rollBackSendState(
-      context: uniStateKey.currentContext!,
       message: message,
       onSendChatMessage: (m) => sendChatMessage(message: m),
     );

@@ -49,7 +49,7 @@ class AddMediaPopOver extends ConsumerWidget {
                 // Image
                 _designSystem.textIconRowBtn(
                   icon: "image",
-                  text: LocaleKeys.image.tr(),
+                  text: UniLocaleKeys.image.tr(),
                   color: _colors.blueSky,
                   onTap: () async => await sendStateNotifier.pickMedia(context,
                       type: UniChatMessageType.image,
@@ -59,7 +59,7 @@ class AddMediaPopOver extends ConsumerWidget {
                 15.vGap,
                 _designSystem.textIconRowBtn(
                   icon: "camera",
-                  text: LocaleKeys.imageCam.tr(),
+                  text: UniLocaleKeys.imageCam.tr(),
                   color: _colors.pink,
                   onTap: () async => await sendStateNotifier.pickMedia(
                     context,
@@ -75,7 +75,7 @@ class AddMediaPopOver extends ConsumerWidget {
                 15.vGap,
                 _designSystem.textIconRowBtn(
                   icon: "video",
-                  text: LocaleKeys.video.tr(),
+                  text: UniLocaleKeys.video.tr(),
                   color: _colors.greenLight,
                   onTap: () async => await sendStateNotifier.pickMedia(context,
                       type: UniChatMessageType.video,
@@ -88,7 +88,7 @@ class AddMediaPopOver extends ConsumerWidget {
                 15.vGap,
                 _designSystem.textIconRowBtn(
                   icon: "attachment",
-                  text: LocaleKeys.file.tr(),
+                  text: UniLocaleKeys.file.tr(),
                   color: _colors.deepOrange,
                   onTap: () async => await sendStateNotifier.pickMedia(
                     context,

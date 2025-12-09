@@ -40,8 +40,8 @@ class UniToastAlert {
           child: Text(
             message ??
                 (isSuccess
-                    ? LocaleKeys.successMsg.tr()
-                    : LocaleKeys.tryAgain.tr()),
+                    ? UniLocaleKeys.successMsg.tr()
+                    : UniLocaleKeys.tryAgain.tr()),
             textAlign: TextAlign.center,
             style: _textStyles.text15LightBoldWhite,
           ),

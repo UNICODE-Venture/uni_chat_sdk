@@ -138,7 +138,6 @@ class SendChatStateNotifier extends Notifier<SendChatState> {
 
   /// [rollBackSendState] is a method that rolls back the send state
   void rollBackSendState({
-    required BuildContext context,
     required UniChatMessage message,
     required VoidSendMsg onSendChatMessage,
   }) {
@@ -150,7 +149,8 @@ class SendChatStateNotifier extends Notifier<SendChatState> {
       messageType: message.messageType,
     );
     if (message.messageType.isMediaMessage && message.mediaFile != null) {
-      context.pushTo(SendMediaView(onSendChatMessage: onSendChatMessage));
+      uniStateKey.currentContext
+          ?.pushTo(SendMediaView(onSendChatMessage: onSendChatMessage));
     }
   }
 }

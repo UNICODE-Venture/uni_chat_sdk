@@ -26,7 +26,7 @@ class UniFullImageView extends StatelessWidget {
     String tag = imageFile?.fileName ?? imageUrl ?? "";
     return UniScaffold(
       backgroundColor: _colors.black,
-      appBar: _designSystem.appBar(title: LocaleKeys.imgView.tr()),
+      appBar: _designSystem.appBar(title: UniLocaleKeys.imgView.tr()),
       body: Hero(
         tag: tag,
         child: imageFile != null

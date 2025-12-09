@@ -48,7 +48,7 @@ class _UniChatRoomsViewState extends ConsumerState<UniChatRoomsView> {
     final chatStateNotifier = ref.chatStateNotifier;
     return UniScaffold(
       appBar: widget.roomBuilder?.appBar ??
-          _designSystem.appBar(title: LocaleKeys.chatRooms.tr()),
+          _designSystem.appBar(title: UniLocaleKeys.chatRooms.tr()),
       body: chatState.loadingStatus.isFetching
           ? const UniChatRoomsLoadingView()
           : ListView.builder(

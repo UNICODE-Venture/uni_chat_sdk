@@ -7,7 +7,6 @@ import 'package:uni_chat_sdk/src/core/extension/extenstion.dart';
 import 'package:uni_chat_sdk/src/core/providers/chat_state.dart';
 
 import '../../../../generated/locale_keys.g.dart';
-import '../../../global/uni_chat_wrapper.dart';
 import '../../../theme/colors.dart';
 import '../../../utils/utils.dart';
 import '../../enums/enums.dart';
@@ -109,10 +108,10 @@ class UniChatMessage {
   String get messageHighlightText {
     return switch (messageType) {
       UniChatMessageType.text => message,
-      UniChatMessageType.image => LocaleKeys.imageShared.tr(),
-      UniChatMessageType.voice => LocaleKeys.voiceShared.tr(),
-      UniChatMessageType.video => LocaleKeys.videoShared.tr(),
-      UniChatMessageType.docFile => LocaleKeys.fileShared.tr(),
+      UniChatMessageType.image => UniLocaleKeys.imageShared.tr(),
+      UniChatMessageType.voice => UniLocaleKeys.voiceShared.tr(),
+      UniChatMessageType.video => UniLocaleKeys.videoShared.tr(),
+      UniChatMessageType.docFile => UniLocaleKeys.fileShared.tr(),
     };
   }
 
