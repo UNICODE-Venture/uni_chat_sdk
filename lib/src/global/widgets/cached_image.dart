@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import '../../core/services/sealed_media.dart';
 import '../uni_design.dart';
 import 'skeleton_loading.dart';
 
@@ -38,7 +39,8 @@ class CachedImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: url,
+      imageUrl: SealedMedia.seal(url),
+      httpHeaders: SealedMedia.headers,
       width: width,
       height: height,
       fit: fit ?? BoxFit.cover,

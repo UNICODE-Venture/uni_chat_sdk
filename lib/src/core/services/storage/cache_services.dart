@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
+import '../sealed_media.dart';
+
 final _cacheManager = DefaultCacheManager();
 
 class CacheServices {
@@ -13,6 +15,9 @@ class CacheServices {
 
   /// [getFile] is a method to get a single file from the cache
   Future<File> getFile(String url) async {
-    return _cacheManager.getSingleFile(url);
+    return _cacheManager.getSingleFile(
+      SealedMedia.seal(url),
+      headers: SealedMedia.headers,
+    );
   }
 }

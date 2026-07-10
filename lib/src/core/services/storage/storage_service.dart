@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uni_chat_sdk/src/core/extension/extenstion.dart';
 
+import '../sealed_media.dart';
+
 import '../../../utils/navigation.dart';
 import '../../repo/collections.dart';
 
@@ -28,7 +30,7 @@ class StorageServices {
     StorageResponse response = StorageResponse();
     try {
       TaskSnapshot task = await reference.putFile(file);
-      String url = await task.ref.getDownloadURL();
+      String url = SealedMedia.buildUrl(task.ref);
       response.downloadUrl = url;
       response.isSuccess = true;
     } catch (e) {
