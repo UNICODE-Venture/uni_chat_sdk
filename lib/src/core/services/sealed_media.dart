@@ -29,6 +29,28 @@ class SealedMedia {
         .catchError((_) => null);
   }
 
+  /// Await once in the host app's splash so cached tokens are ready before any
+  /// chat media renders. App Check primed always, ID token only when signed in,
+  /// with a 4s timeout. Public entry point is [UniChatMedia.prime].
+  static Future<void> prime() async {
+    _ensureListening();
+    await Future.wait([
+      Future(() async {
+        try {
+          _appCheckToken = await FirebaseAppCheck.instance
+              .getToken()
+              .timeout(const Duration(seconds: 4));
+        } catch (_) {}
+      }),
+      Future(() async {
+        try {
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) _idToken = await user.getIdToken();
+        } catch (_) {}
+      }),
+    ]);
+  }
+
   /// Strip the download token -> tokenless `?alt=media`. Non-storage URLs
   /// returned unchanged.
   static String seal(String url) {

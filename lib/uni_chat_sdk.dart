@@ -28,6 +28,7 @@ export 'src/views/chat/bubbles/uni_chat_bubble.dart';
 
 /// Services
 export 'src/core/services/uni_chat_services.dart';
+export 'src/core/services/uni_chat_media.dart';
 
 // Add Btn Widgets for Pick Media
 export 'src/views/send_chat/widgets/add_media_btn.dart';
