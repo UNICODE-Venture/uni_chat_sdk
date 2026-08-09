@@ -48,7 +48,7 @@ dependencies:
 
   # Media Picker
   image_picker: ^1.1.2
-  file_picker: ^9.0.2
+  file_picker: ^11.0.2
   open_file: ^3.3.2
 
   # Utils
