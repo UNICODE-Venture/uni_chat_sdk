@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import '../../../utils/navigation.dart';
 
 final _picker = ImagePicker();
-final _filePicker = FilePicker.platform;
 
 class PickerServices {
   PickerServices._();
@@ -24,7 +23,7 @@ class PickerServices {
   /// Pick Video from File or Gallery
   Future<File?> pickVideo() async {
     try {
-      final fileResult = await _filePicker.pickFiles(type: FileType.video);
+      final fileResult = await FilePicker.pickFiles(type: FileType.video);
       if (fileResult != null && fileResult.files.isNotEmpty) {
         final file = File(fileResult.files.single.path!);
         return file;
@@ -38,7 +37,7 @@ class PickerServices {
   /// Pick File from File support only pdf, and doc
   Future<File?> pickFile() async {
     try {
-      final fileResult = await _filePicker.pickFiles(
+      final fileResult = await FilePicker.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['pdf', 'doc'],
       );
