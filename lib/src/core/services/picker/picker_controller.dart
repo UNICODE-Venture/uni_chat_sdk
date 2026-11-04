@@ -24,8 +24,8 @@ class PickerServices {
   Future<File?> pickVideo() async {
     try {
       final fileResult = await FilePicker.pickFiles(type: FileType.video);
-      if (fileResult != null && fileResult.files.isNotEmpty) {
-        final file = File(fileResult.files.single.path!);
+      if (fileResult.isNotEmpty) {
+        final file = File(fileResult.single.path!);
         return file;
       }
     } catch (e) {
@@ -41,8 +41,8 @@ class PickerServices {
         type: FileType.custom,
         allowedExtensions: ['pdf', 'doc'],
       );
-      if (fileResult != null && fileResult.files.isNotEmpty) {
-        final file = File(fileResult.files.single.path!);
+      if (fileResult.isNotEmpty) {
+        final file = File(fileResult.single.path!);
         return file;
       }
     } catch (e) {
